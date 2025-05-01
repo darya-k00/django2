@@ -8,10 +8,13 @@ def passcard_info_view(request, passcode):
     passcard = get_object_or_404(Passcard, passcode=passcode)
     this_passcard_visits = []
     for visit in Visit.objects.filter(passcard=passcard):
+        sec = visit.get_duration()
+        str_delta_time_visit = format_duration(sec)
+        is_long_visit = visit.is_visit_long()
         this_passcard_visits.append({
             'entered_at': visit.entered_at,
-            'duration': get_duration(visit),
-            'is_strange': is_visit_long(visit, minutes=60)
+            'duration': str_delta_time_visit,
+            'is_strange': is_long_visit, 
         })
 
     context = {
