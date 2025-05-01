@@ -33,9 +33,9 @@ class Visit(models.Model):
         
     def get_duration(self):
       if self.leaved_at:
-        delta_time = self.leaved_at - self.entered_at
+        delta = self.leaved_at - self.entered_at
       else :
-        delta_time = timezone.now() - self.entered_at
+        delta = timezone.now() - self.entered_at
 
       seconds = delta_time.total_seconds()
       return seconds        
@@ -45,8 +45,13 @@ class Visit(models.Model):
       return get_duration(self) > datetime.timedelta(minutes=minutes)
 
 
-def format_duration(seconds):
-    hours = int(seconds // 3600 )
-    minutes = int( (seconds % 3600) // 60)
-    str_delta_time = "{0} ч {1} мин".format(hours,minutes)
-    return str_delta_time
+def format_duration(delta):
+    total_seconds = delta.total_seconds()
+    hours = int(total_seconds // SECONDS_IN_ONE_HOURS)
+    minutes = int((total_seconds % SECONDS_IN_ONE_HOURS) // SECONDS_IN_ONE_MINUTES)
+    seconds = int(total_seconds % SECONDS_IN_ONE_MINUTES)
+    return '{hours}:{minutes:02d}:{seconds:02d}'.format(
+        hours=hours,
+        minutes=minutes,
+        seconds=seconds
+    )
