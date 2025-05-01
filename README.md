@@ -16,6 +16,7 @@ pip install -r requirements.txt
  DB_USER='Кто использует БД',
  DB_PASSWORD='пароль к БД',
  SECRET_KEY='секретный ключ'
+ ALLOWED_HOST ='список допустимых хостов'
 ```
 ## Сайт запускается командой
 ```
