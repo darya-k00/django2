@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.utils import timezone
 
 class Passcard(models.Model):
     is_active = models.BooleanField(default=False)
@@ -33,8 +33,7 @@ class Visit(models.Model):
       if self.leaved_at:
         delta_time = self.leaved_at - self.entered_at
       else :
-        dt_now_0 = datetime.datetime.now()
-        delta_time = django.utils.timezone.make_aware(dt_now_0) - self.entered_at
+        delta_time = timezone.now() - self.entered_at
 
       seconds = delta_time.total_seconds()
       return seconds        
